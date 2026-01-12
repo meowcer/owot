@@ -19,12 +19,10 @@ function updateChatPreview() {
 	if (elm.chatbar.value.length > 0) return textDiv.style.display = "none";
 	textDiv.style.display = "";
 	nameElm.innerText = `[${w.clientId}]:`;
-	if (YourWorld.Nickname.length) {
-		if (state.userModel.authenticated) {
-			nameElm.innerText = `${YourWorld.Nickname || state.userModel.username}:`;
-		} else {
-			nameElm.innerText = `[*${w.clientId}] ${YourWorld.Nickname}:`;
-		}
+	if (YourWorld.Nickname.length && !state.userModel.authenticated) {
+		nameElm.innerText = `[*${w.clientId}] ${YourWorld.Nickname}:`;
+	} else if (state.userModel.authenticated) {
+		nameElm.innerText = `${YourWorld.Nickname || state.userModel.username}:`;
 	}
 	nameElm.style.color = "#000";
 	nameElm.style.fontWeight = "";
