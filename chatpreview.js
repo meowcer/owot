@@ -28,7 +28,7 @@ function updateChatPreview() {
 	nameElm.style.fontWeight = "";
 	if (state.userModel.authenticated && defaultChatColor !== null) {
 		nameElm.style.color = int_to_hexcode(defaultChatColor);
-		if (YourWorld.Nickname === state.userModel.username) {
+		if (YourWorld.Nickname === state.userModel.username || YourWorld.Nickname.length == 0) {
 			nameElm.style.fontWeight = "bold";
 		}
     }
