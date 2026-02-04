@@ -61,9 +61,7 @@ resetLinkModalVisibility();
 menuOptions.link = menu.addOption("Create links to", function() {
 	w.ui.linkModal.open();
 });
-for (let i = menuOptions.urlLink; i < menu.lastEntryId - 1; i++) {
-	menu.moveEntryLast(i);
-}
+menu.menuEl.children[0].insertBefore(menu.entriesById[menu.lastEntryId - 1].element, menu.entriesById[menuOptions.coordLink].element);
 
 function updateMenuEntryVisiblity() {
 	var permColorText = Permissions.can_color_text(state.userModel, state.worldModel);
