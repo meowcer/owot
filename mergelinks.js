@@ -31,7 +31,7 @@ function buildURLModal(modal) {
     var urlInput = modal.addEntry("URL", "text").input;
     urlInput.style.width = "175px";
     modal.unalignForm();
-    modal.focusTab("coord");
+    if (modal.tabIndex.coord) modal.focusTab("coord");
 }
 function resetLinkModalVisibility() {
 	var pCoord = Permissions.can_coordlink(state.userModel, state.worldModel);
@@ -47,7 +47,7 @@ function resetLinkModalVisibility() {
 	}
 	if(pCoord) {
 		w.ui.linkModal.showTab("coord");
-	} else {
+	} else if (pURL) {
 		w.ui.linkModal.hideTab("coord");
 		w.ui.linkModal.focusTab("url");
 	}
