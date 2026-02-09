@@ -1,5 +1,6 @@
 menu.hideEntry(menuOptions.coordLink);
 menu.hideEntry(menuOptions.urlLink);
+var modalEntries = {};
 
 function makeLinkModal() {
 	var modal = new Modal();
@@ -9,15 +10,15 @@ function makeLinkModal() {
 	modal.addTab("coord", "Coords");
     modal.createForm();
     modal.setFormTitle("Enter the coordinates to create a link to. You can then click on a letter to create the link.\n");
-    var coordX = modal.addEntry("X", "text", "number").input;
-    var coordY = modal.addEntry("Y", "text", "number").input;
+    modalEntries.coordX = modal.addEntry("X", "text", "number").input;
+    modalEntries.coordY = modal.addEntry("Y", "text", "number").input;
 
     modal.onSubmit(function() {
 		var tabId = modal.getCurrentTabId();
 		if (tabId == "coord") {
-            w.doCoordLink(parseFloat(coordY.value), parseFloat(coordX.value));
+            w.doCoordLink(parseFloat(modalEntries.coordY.value), parseFloat(modalEntries.coordX.value));
         } else {
-            w.doUrlLink(urlInput.value);
+            w.doUrlLink(modalEntries.urlInput.value);
         }
     });
 
@@ -28,7 +29,7 @@ function buildURLModal(modal) {
     modal.focusTab("url");
     modal.createForm();
     modal.setFormTitle("\n");
-    var urlInput = modal.addEntry("URL", "text").input;
+    modalEntries.urlInput = modal.addEntry("URL", "text").input;
     urlInput.style.width = "175px";
     modal.unalignForm();
     if (modal.tabIndex.coord) modal.focusTab("coord");
