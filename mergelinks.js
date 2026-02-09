@@ -30,7 +30,7 @@ function buildURLModal(modal) {
     modal.createForm();
     modal.setFormTitle("\n");
     modalEntries.urlInput = modal.addEntry("URL", "text").input;
-    urlInput.style.width = "175px";
+    modalEntries.urlInput.style.width = "175px";
     modal.unalignForm();
     if (modal.tabIndex.coord) modal.focusTab("coord");
 }
