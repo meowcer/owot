@@ -40,17 +40,20 @@ w.on("owot_ext_open", function(e) {
 w.emit("owot_ext_request", "mousepanning");
 restoreOptions();
 
+function clearBorders() {
+	borderLeft = false;
+	borderRight = false;
+    borderUp = false;
+    borderDown = false;
+}
 var borderLeft = false;
 var borderRight = false;
 var borderUp = false;
 var borderDown = false;
 var lastFrame = Date.now();
 document.addEventListener("mousemove", function(e) {
-	if (!closest(e.target, elm.owot) && !closest(e.target, elm.announce_container)) {
-        borderLeft = false;
-        borderRight = false;
-        borderUp = false;
-        borderDown = false;
+	if (!closest(e.target, elm.owot) && !closest(e.target, elm.announce_container) && !closest(e.target, elm.link_div)) {
+		clearBorders();
         return;
     }
 	if (e.clientX <= padding) {
@@ -74,34 +77,32 @@ document.addEventListener("mousemove", function(e) {
 		borderDown = false;
 	}
 });
-document.addEventListener("mouseout", function(e) {
-	borderLeft = false;
-	borderRight = false;
-	borderUp = false;
-	borderDown = false;
-});
+document.addEventListener("mouseout", clearBorders);
+function getOffset(time) {
+	return Math.min(scrollMax, Math.floor(3 ** (time / 200))) / 1000 * (Date.now() - lastFrame);
+}
 function moveBorderMouse() {
 	requestAnimationFrame(moveBorderMouse);
 	var moveX = 0;
 	var moveY = 0;
 	if (borderLeft) {
 		var time = Date.now() - borderLeft;
-		moveX += Math.min(scrollMax, Math.floor(3 ** (time / 200 + 1))) / 1000 * (Date.now() - lastFrame);
+		moveX += getOffset(time);
     }
 	if (borderRight) {
 		var time = Date.now() - borderRight;
-		moveX -= Math.min(scrollMax, Math.floor(3 ** (time / 200 + 1))) / 1000 * (Date.now() - lastFrame);
+		moveX -= getOffset(time);
     }
 	if (borderUp) {
 		var time = Date.now() - borderUp;
-		moveY += Math.min(scrollMax, Math.floor(3 ** (time / 200 + 1))) / 1000 * (Date.now() - lastFrame);
+		moveY += getOffset(time);
     }
 	if (borderDown) {
 		var time = Date.now() - borderDown;
-		moveY -= Math.min(scrollMax, Math.floor(3 ** (time / 200 + 1))) / 1000 * (Date.now() - lastFrame);
+		moveY -= getOffset(time);
     }
-	positionX += moveX * zoom;
-	positionY += moveY * zoom;
+	positionX += moveX;
+	positionY += moveY;
 	lastFrame = Date.now();
 	w.redraw();
 }
