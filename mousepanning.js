@@ -21,9 +21,9 @@ function restoreOptions() {
     settingsModal.cbList[0].cbElm.checked = onlyOnDrag;
 	if (onlyOnDrag) {
 		settingsModal.cbList[0].children.forEach(childCb => {
-			childCb.cbElm.disabled = false;
-		});
-	}
+            childCb.cbElm.disabled = false;
+        });
+    }
     settingsModal.cbList[0].children[0].cbElm.checked = onlyOnSelect;
 }
 var settingsModal = new Modal();
@@ -33,6 +33,13 @@ settingsModal.setFormTitle("OWoT mouse panning");
 settingsModal.addEntry("Padding", "text", "number");
 settingsModal.addEntry("Scroll max", "text", "number");
 var dragCb = settingsModal.addCheckbox("Only while dragging");
+dragCb.cbElm.addEventListener("change", function() {
+	if (!dragCb.cbElm.checked) {
+		dragCb.children.forEach(childCb => {
+            childCb.cbElm.checked = false;
+        });
+	}
+});
 settingsModal.addCheckbox("Only while selecting", dragCb);
 
 settingsModal.formField.appendChild(settingsModal.cbField);
