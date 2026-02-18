@@ -19,15 +19,24 @@ function restoreOptions() {
     settingsModal.formInputs[0].input.value = padding;
     settingsModal.formInputs[1].input.value = scrollMax;
     settingsModal.cbList[0].cbElm.checked = onlyOnDrag;
+	if (onlyOnDrag) {
+		settingsModal.cbList[0].children.forEach(childCb => {
+			childCb.cbElm.disabled = false;
+		});
+	}
     settingsModal.cbList[0].children[0].cbElm.checked = onlyOnSelect;
 }
 var settingsModal = new Modal();
 settingsModal.createForm();
+settingsModal.createCheckboxField();
 settingsModal.setFormTitle("OWoT mouse panning");
 settingsModal.addEntry("Padding", "text", "number");
 settingsModal.addEntry("Scroll max", "text", "number");
 var dragCb = settingsModal.addCheckbox("Only while dragging");
 settingsModal.addCheckbox("Only while selecting", dragCb);
+
+settingsModal.formField.appendChild(settingsModal.cbField);
+settingsModal.formField.insertBefore(settingsModal.cbField, settingsModal.subField);
 
 settingsModal.onSubmit(saveOptions);
 settingsModal.onClose(function() {
@@ -123,6 +132,8 @@ function moveBorderMouse() {
     }
 	positionX += moveX;
 	positionY += moveY;
+	dragPosX += moveX;
+	dragPosY += moveY;
 	lastFrame = Date.now();
 	w.redraw();
 }
