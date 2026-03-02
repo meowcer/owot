@@ -93,7 +93,7 @@ document.addEventListener("mousemove", function(e) {
     } else {
 		borderLeft = false;
 	}
-	if (e.clientX >= owotWidth - padding) {
+	if (e.clientX >= owotWidth / devicePixelRatio - padding) {
 		if (!borderRight) borderRight = Date.now();
     } else {
 		borderRight = false;
@@ -103,7 +103,7 @@ document.addEventListener("mousemove", function(e) {
     } else {
 		borderUp = false;
 	}
-	if (e.clientY >= owotHeight - padding) {
+	if (e.clientY >= owotHeight / devicePixelRatio - padding) {
 		if (!borderDown) borderDown = Date.now();
 	} else {
 		borderDown = false;
