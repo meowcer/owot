@@ -9,14 +9,18 @@ function makeLinkModal() {
 
 	modal.addTab("coord", "Coords");
     modal.createForm();
-    modal.setFormTitle("Enter the coordinates to create a link to. You can then click on a letter to create the link.\n");
+    modal.setFormTitle("Enter the coordinates to create a link to. You can then click on a cell to create the link.\n");
     modalEntries.coordX = modal.addEntry("X", "text", "number").input;
     modalEntries.coordY = modal.addEntry("Y", "text", "number").input;
+	modalEntries.relative = modal.addEntry("Relative", "checkbox").input;
+	modalEntries.relative.parentElement.title = "When checked, this coord link will teleport the user relative to the coordinates provided";
+	modalEntries.relative.type = "checkbox";
+	modalEntries.relative.style.width = "0.75em";
 
     modal.onSubmit(function() {
 		var tabId = modal.getCurrentTabId();
 		if (tabId == "coord") {
-            w.doCoordLink(parseFloat(modalEntries.coordY.value), parseFloat(modalEntries.coordX.value));
+            w.doCoordLink(parseFloat(modalEntries.coordY.value), parseFloat(modalEntries.coordX.value), modalEntries.relative.checked);
         } else {
             w.doUrlLink(modalEntries.urlInput.value);
         }
